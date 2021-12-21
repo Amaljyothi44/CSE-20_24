@@ -49,18 +49,15 @@ void InsertR(){
 
 
 void InsertL(){
-    int item;
     if(isFull()||left<1){
-        printf("Queue Overflow!\n\t---Cant insert item---");
+        printf("\t---Cant insert item---");
         return;
     }
     else{
-        
-
             printf("\nEnter ittem to be inserted: ");
+            left--;
             scanf("%d",&q[left]); 
-            left--; 
-
+            
     }
 }
 
@@ -75,11 +72,9 @@ void deleteL(){
         left = -1;
         right = -1;
 	}else if(left==MAX-1){
-        printf("\nDeleted element is %d",q[left]);
         left = 0;
     }
     else{
-		printf("\nDeleted element is %d",q[left]);
         left++;
     }
     }
@@ -96,7 +91,7 @@ void deleteR(){
         left = -1;
         right = -1;   
 	}else
-		left++;
+		right--;
     }
     
 }
@@ -109,7 +104,7 @@ void display(){
     int rear = right;
 
     printf("\n");
-    if(left==-1){
+    if(front==-1){
         printf("Queue is Empty!");
         return;
     }else if(front<=rear){
