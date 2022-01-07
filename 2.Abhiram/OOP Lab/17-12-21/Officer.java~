@@ -1,0 +1,20 @@
+
+public class Officer extends Employee{
+	private String spec;
+	
+	public void read(){
+		super.read();
+		inp.nextLine();
+		System.out.println("Enter Specialization: ");
+		String spe = inp.nextLine();
+		this.setSpec(spe);
+	}
+	public String getSpec(){
+		return this.spec;
+	}
+	public void setSpec(String spec){
+		this.spec = spec;
+	}
+
+}
+

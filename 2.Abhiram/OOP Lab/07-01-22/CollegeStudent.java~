@@ -1,0 +1,23 @@
+public class CollegeStudent extends Student{
+	private String clgName;
+	private int YoS;
+	
+	public CollegeStudent(String name,String dob,int sId,String clgName,int YoS){
+		super(name,dob,sId);
+		setClgName(clgName);
+		setYoS(YoS);
+	}
+	
+	public void setClgName(String clgName){
+		this.clgName = clgName;
+	}
+	public String getClgName(){
+		return this.clgName;
+	}
+	public void setYoS(int YoS){
+		this.YoS = YoS;
+	}
+	public int getYoS(){
+		return this.YoS;
+	}
+}

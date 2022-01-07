@@ -1,0 +1,58 @@
+
+public class Employee{
+	private String name;
+	private int age;
+	private long phno;
+	private String adrs;
+	private float salary;
+	
+	public Employee(String name, int age, long phno, String adrs, float salary){
+		setName(name);
+		setAge(age);
+		setPhno(phno);
+		setAdrs(adrs);
+		setSalary(salary);
+	}
+	
+	
+	//1------------------
+	public String getName(){
+		return this.name;
+	}
+	public void setName(String name){
+		this.name = name;
+	}
+	//-2--------------------
+	public int getAge(){
+		return this.age;
+	}
+	public void setAge(int age){
+		this.age = age;
+	}
+	//--3------------------
+	public long getPhno(){
+		return this.phno;
+	}
+	public void setPhno(long phno){
+		this.phno = phno;
+	}
+	//---4---------------
+	public String getAdrs(){
+		return this.adrs;
+	}
+	public void setAdrs(String adrs){
+		this.adrs = adrs;
+	}
+	//----5----------------
+	public  float getSalary(){
+		return this.salary;
+	}
+	public void setSalary(float salary){
+		this.salary = salary;
+	}
+
+
+	public void printSalary(){
+		System.out.println("Salary is "+this.salary);
+	}
+}
