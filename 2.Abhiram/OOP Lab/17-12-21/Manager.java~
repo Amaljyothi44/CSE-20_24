@@ -1,0 +1,20 @@
+
+public class Manager extends Employee{
+	private String dept;
+	
+	public void read(){
+		super.read();
+		inp.nextLine();
+		System.out.println("Enter Department: ");
+		String dept = inp.nextLine();
+		this.setDept(dept);
+	}
+	public String getDept(){
+		return this.dept;
+	}
+	public void setDept(String dept){
+		this.dept = dept;
+	}
+
+}
+
