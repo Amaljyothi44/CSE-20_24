@@ -14,14 +14,14 @@ public class Value {
     }
 
     public void setValue(int value) {
+        this.value = value;
+    }
 
-        System.out.println("Value#setValue: " + value);
+    public synchronized void incrementValue() {
 
-        synchronized (this) {
-            System.out.println("Before: " + value);
-            this.value = value;
-            System.out.println("After: " + value);
-        }
+        System.out.println("Value#incrementValue -> Before: " + getValue());
+        setValue(getValue() + 1);
+        System.out.println("Value#incrementValue -> After: " + getValue());
 
     }
 }

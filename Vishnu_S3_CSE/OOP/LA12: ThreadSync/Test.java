@@ -6,13 +6,15 @@ public class Test {
 
         for (int i = 0; i < 10; i++) {
 
-            int finalI = i;
-
             new Thread(
-                    () -> value.setValue(finalI)
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            value.incrementValue();
+                        }
+                    }
             ).start();
 
         }
-
     }
 }
