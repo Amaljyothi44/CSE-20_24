@@ -5,8 +5,8 @@ char STACK[100];
 int TOP = -1;
 
 void convertPostFix(char[]);
-int priority(char x);
-void push(char c);
+int priority(char);
+void push(char);
 char pop();
 
 int main() {
