@@ -1,79 +1,115 @@
-#include<stdio.h>
-#include<stdbool.h>
+#include <stdbool.h>
+#include <stdio.h>
 
-#define MAX 5 
- 
-int QUEUE[MAX], front = 0,  rear = -1;
+#define MAX 5
 
-bool isFull() {
-    return (rear - front == MAX - 1);
+int QUEUE[MAX], FRONT = -1, REAR = -1;
+
+void enqueue();
+void dequeue();
+void display();
+void peek();
+bool isFull();
+bool isEmpty();
+
+int main() {
+
+  int choice;
+  printf("Menu\n 1. Enqueue\n 2. Dequeue\n 3. Peek\n 4. Display\n 5. Exit\n");
+
+  while (true) {
+
+    printf("\nEnter choice: ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+
+    case 1:
+      enqueue();
+      break;
+    case 2:
+      dequeue();
+      break;
+    case 3:
+      peek();
+      break;
+    case 4:
+      display();
+      break;
+    case 5:
+      printf("Exiting...");
+      return 0;
+    default:
+      printf("Invalid choice");
+    }
+  }
+
+  return 0;
 }
 
-bool isEmpty() {
-    return (front < 0 || front > rear);
-}
+bool isFull() { return (REAR + 1) % MAX == FRONT; }
 
-void peek(){
-    if(isEmpty())
-        printf("Queue is empty");
-    else
-        printf("Top element is: %d", QUEUE[front]);
+bool isEmpty() { return FRONT < 0 && REAR < 0; }
+
+void peek() {
+
+  if (isEmpty()) {
+    printf("Queue Empty");
+    return;
+  }
+
+  printf("Front element is: %d", QUEUE[FRONT]);
 }
 
 void enqueue() {
-    int data;
-    printf("Enter element: ");
-    scanf("%d", &data);
-    if(isFull()){
-        printf("Queue Overflow");
-        return;
-    } else {
-        QUEUE[++rear] = data;
-    }
+
+  if (isFull()) {
+    printf("Queue Overflow");
+    return;
+  }
+
+  int x;
+  printf("Enter Element: ");
+  scanf("%d", &x);
+
+  if (FRONT == -1 && REAR == -1)
+    FRONT = REAR = 0;
+  else if (REAR == MAX - 1 && FRONT != 0)
+    REAR = 0;
+  else
+    REAR = (REAR + 1) % MAX;
+
+  QUEUE[REAR] = x;
 }
 
-void dequeue(){
-    if(isEmpty()){
-        printf("Queue Underflow");
-    } else {
-        printf("Removed element: %d", QUEUE[front++]);
-    }
+void dequeue() {
+
+  if (isEmpty()) {
+    printf("Queue Underflow");
+    return;
+  }
+
+  int v = QUEUE[FRONT];
+
+  if (FRONT == REAR)
+    FRONT = REAR = -1;
+  else
+    FRONT = (FRONT + 1) % MAX;
+
+  printf("Removed element: %d", v);
 }
 
-void display(){
-    if(isEmpty())
-        printf("Queue Empty");
-    else 
-        for(int i = front; i <= rear; i++)
-            printf("\t%d", QUEUE[i]);
-}
+void display() {
 
-void main() {
-    int c;
-    printf("Choose an option:\n1. Enqueue\n2. Dequeue\n3. Peek\n4. Display\n5. Exit\n");
+  if (isEmpty()) {
+    printf("Queue Empty");
+    return;
+  }
 
-    menu:
-    printf("\nEnter choice: ");
-    scanf("%d", &c);
+  int i;
 
-    switch(c) {
-    
-        case 1:
-           enqueue();
-           break;
-        case 2:
-            dequeue();
-            break;
-        case 3:
-            peek();
-            break;
-        case 4:
-            display();
-            break;
-        case 5:
-            printf("Exiting...");
-            return;
-        default:
-            printf("Choice not found");
-        } goto menu;
+  for (i = FRONT; i != REAR; i = (i + 1) % MAX)
+    printf("%d ", QUEUE[i]);
+
+  printf("\t%d", QUEUE[i]);
 }
