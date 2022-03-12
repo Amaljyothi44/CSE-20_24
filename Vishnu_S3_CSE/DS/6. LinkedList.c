@@ -9,14 +9,14 @@ struct Node {
 
 struct Node *HEAD = NULL;
 
-void insertStart(int value);
-void insertEnd(int value);
-void insert(int value, int key);
+void insertStart(int);
+void insertEnd(int);
+void insert(int, int);
 void deleteStart();
 void deleteEnd();
-void delete (int key);
+void delete (int);
 void display();
-int getValue(char s[]);
+int getValue(char[]);
 
 int main() {
 
