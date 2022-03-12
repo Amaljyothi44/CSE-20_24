@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,49 +10,58 @@ struct Node {
 
 struct Node *ROOT = NULL;
 
-int getValue(char[]);
 struct Node *insertNode(struct Node *, int);
 struct Node *minValueNode(struct Node *);
 struct Node *deleteNode(struct Node *, int);
 void traversePreOrder(struct Node *);
 void traversePostOrder(struct Node *);
 void traverseInOrder(struct Node *);
+int getValue(char[]);
 
 int main() {
 
-  int c;
-  printf("Choose an option:\n1. Insert\n2. Preorder traversal\n3. Inorder "
-         "traversal\n4. Postorder traversal\n5. Delete");
+  int choice;
 
-menu:
-  printf("\nEnter choice: ");
-  scanf("%d", &c);
+  printf("Menu:\n"
+         " 1. Insert\n"
+         " 2. Preorder traversal\n"
+         " 3. Inorder traversal\n"
+         " 4. Postorder traversal\n"
+         " 5. Delete\n"
+         " 6. Exit");
 
-  switch (c) {
+  while (true) {
 
-  case 1:
-    insertNode(ROOT, getValue("Enter the value: "));
-    break;
-  case 2:
-    printf("PreOrder: ");
-    traversePreOrder(ROOT);
-    break;
-  case 3:
-    printf("InOrder: ");
-    traverseInOrder(ROOT);
-    break;
-  case 4:
-    printf("PostOrder: ");
-    traversePostOrder(ROOT);
-    break;
-  case 5:
-    deleteNode(ROOT, getValue("Value to delete: "));
-    break;
-  default:
-    printf("\nChoice not found\n");
-    return 0;
+    printf("\nEnter choice: ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+
+    case 1:
+      insertNode(ROOT, getValue("Enter the value: "));
+      break;
+    case 2:
+      printf("PreOrder: ");
+      traversePreOrder(ROOT);
+      break;
+    case 3:
+      printf("InOrder: ");
+      traverseInOrder(ROOT);
+      break;
+    case 4:
+      printf("PostOrder: ");
+      traversePostOrder(ROOT);
+      break;
+    case 5:
+      deleteNode(ROOT, getValue("Value to delete: "));
+      break;
+    case 6:
+      printf("Exiting...\n");
+      return 0;
+    default:
+      printf("\nInvalid choice\n");
+    }
   }
-  goto menu;
 
   return 0;
 }
@@ -60,8 +69,10 @@ menu:
 struct Node *minValueNode(struct Node *node) {
 
   struct Node *current = node;
+
   while (current != NULL && current->left != NULL)
     current = current->left;
+
   return current;
 }
 
@@ -82,12 +93,14 @@ struct Node *deleteNode(struct Node *node, int val) {
 
       struct Node *temp = node->right;
       free(node);
+
       return temp;
 
     } else if (node->right == NULL) {
 
       struct Node *temp = node->left;
       free(node);
+
       return temp;
     }
 
@@ -97,13 +110,6 @@ struct Node *deleteNode(struct Node *node, int val) {
   }
 
   return node;
-}
-
-int getValue(char s[]) {
-  int n;
-  printf("%s", s);
-  scanf("%d", &n);
-  return n;
 }
 
 struct Node *insertNode(struct Node *node, int key) {
@@ -164,4 +170,11 @@ void traverseInOrder(struct Node *node) {
   printf("%d -> ", node->data);
 
   traverseInOrder(node->right);
+}
+
+int getValue(char s[]) {
+  int n;
+  printf("%s", s);
+  scanf("%d", &n);
+  return n;
 }
