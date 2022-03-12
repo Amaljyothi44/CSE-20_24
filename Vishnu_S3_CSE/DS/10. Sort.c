@@ -37,7 +37,6 @@ int main() {
   printArray("Insertion sort:", insertionSort(arr, n), n);
   printArray("Selection sort:", selectionSort(arr, n), n);
   printArray("Quick sort:", quickSort(arr, 0, n - 1), n);
-  printArray("Bubble sort:", bubbleSort(arr, n), n);
   printArray("Merge sort:", mergeSort(arr, 0, n - 1), n);
   printArray("Heap sort:", heapSort(arr, n), n);
 
