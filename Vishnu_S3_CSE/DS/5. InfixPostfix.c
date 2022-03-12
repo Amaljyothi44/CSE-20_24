@@ -1,61 +1,68 @@
-#include<stdio.h>
-#include<ctype.h>
+#include <ctype.h>
+#include <stdio.h>
 
 char STACK[100];
 int TOP = -1;
 
-void push(char c){
-    STACK[++TOP] = c;
+void convertPostFix(char[]);
+int priority(char x);
+void push(char c);
+char pop();
+
+int main() {
+
+  char expression[100];
+
+  printf("\nEnter a valid infix expression: ");
+  scanf("%s", expression);
+
+  printf("\n");
+
+  convertPostFix(expression);
+
+  printf("\n\n");
+
+  return 0;
 }
 
-char pop(){
-    if(TOP == -1)
-        return -1;
-    else
-        return STACK[TOP--];
-}
+void convertPostFix(char expression[]) {
 
-int priority(char x){
-    if(x == '(')
-        return 0;
-    if(x == '+' || x == '-')
-        return 1;
-    if(x == '*' || x == '/')
-        return 2;
-    if(x == '^')
-        return 3;   
-     return 0;
-}
+  char *e = expression, x;
 
-int main(){	
+  while (*e != '\0') {
 
-    char expression[100];
-    char *e, x;
-    printf("\nEnter the expression: ");
-    scanf("%s", expression);
-    printf("\n");
-    e = expression;
-   
-    while(*e != '\0'){
-        if(isalnum(*e))
-            printf("%c ", *e);
-        else if(*e == '(')
-            push(*e);
-        else if(*e == ')')
-            while((x = pop()) != '(')
-                printf("%c ", x);
-        else{
-             while(priority(STACK[TOP]) >= priority(*e))
-                printf("%c ",pop());
-            push(*e);
-        }
-        e++;
+    if (isalnum(*e))
+      printf("%c ", *e);
+    else if (*e == '(')
+      push(*e);
+    else if (*e == ')')
+      while ((x = pop()) != '(')
+        printf("%c ", x);
+    else {
+      while (priority(STACK[TOP]) >= priority(*e))
+        printf("%c ", pop());
+      push(*e);
     }
-    
-    while(TOP != -1)
-        printf("%c ",pop());
 
-    printf("\n\n");
-    return 0;
+    e++;
+  }
 
+  while (TOP != -1)
+    printf("%c ", pop());
 }
+
+int priority(char x) {
+  if (x == '(')
+    return 0;
+  if (x == '+' || x == '-')
+    return 1;
+  if (x == '*' || x == '/')
+    return 2;
+  if (x == '^')
+    return 3;
+  return 0;
+}
+
+void push(char c) { STACK[++TOP] = c; }
+
+char pop() { return STACK[TOP--]; }
