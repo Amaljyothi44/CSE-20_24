@@ -1,71 +1,92 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#define MAX 50
+#define MAX 5
 
-void insert();
-void delete();
+void enqueue();
+void dequeue();
 void display();
+bool isFull();
+bool isEmpty();
 
-int QUEUE[MAX], rear = -1, front = -1;
+int QUEUE[MAX], REAR = -1, FRONT = -1;
 
-void main() {
-    
-    int choice;
-    
-    printf("\nMenu\n1. Insert\n2. Delete\n3. Display\n4. Exit\n");
+int main() {
 
-    while(1){
+  int choice;
 
-        printf("\nEnter choice: ");
-        scanf("%d", &choice);
-        
-        switch(choice) {
-    
-        case 1:
-           insert();
-           break;
-        case 2:
-            delete();
-            break;
-        case 3:
-            display();
-            break;
-        case 4:
-            printf("Exiting...");
-            exit(1);
-        default:
-            printf("Invalid choice");
-        }
+  printf("\nMenu\n 1. Enqueue\n 2. Dequeue\n 3. Display\n 4. Exit\n");
+
+  while (1) {
+
+    printf("\nEnter choice: ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+
+    case 1:
+      enqueue();
+      break;
+    case 2:
+      dequeue();
+      break;
+    case 3:
+      display();
+      break;
+    case 4:
+      printf("Exiting...");
+      exit(1);
+    default:
+      printf("Invalid choice");
     }
+  }
+
+  return 0;
 }
 
-void insert() {
-    int x;
-    if (rear == MAX - 1) 
-        printf("Queue Overflow");
-    else {
-        if(front == -1)
-            front = 0;
-        printf("Enter Element: ");
-        scanf("%d", &x);
-        QUEUE[++rear] = x;
-    }
+bool isFull() { return REAR == MAX - 1; }
+
+bool isEmpty() { return FRONT == -1 || FRONT > REAR; }
+
+void enqueue() {
+
+  if (isFull()) {
+    printf("Queue Overflow");
+    return;
+  }
+
+  if (FRONT == -1)
+    FRONT++;
+
+  int x;
+  printf("Enter Element: ");
+  scanf("%d", &x);
+
+  QUEUE[++REAR] = x;
 }
 
-void delete() {
-    if(front == -1 || front  > rear){
-        printf("Queue Underflow");
-        return;
-    } else 
-        printf("Element deleted: %d", QUEUE[front++]);
+void dequeue() {
+
+  if (isEmpty()) {
+    printf("Queue Underflow");
+    return;
+  }
+
+  printf("Element deleted: %d", QUEUE[FRONT++]);
+
+  if (FRONT == REAR)
+    FRONT = REAR = -1;
 }
 
 void display() {
-    int i;
-    if(front == -1)
-        printf("Queue Empty");
-    else
-        for(int i = front; i <= rear; i++)
-            printf("\t%d", QUEUE[i]);
-}    
+
+  if (isEmpty()) {
+    printf("Queue Empty");
+    return;
+  }
+
+  for (int i = FRONT; i <= REAR; i++)
+    printf("\t%d", QUEUE[i]);
+}
+
