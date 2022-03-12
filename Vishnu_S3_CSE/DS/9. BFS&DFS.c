@@ -9,110 +9,29 @@ struct Vertex {
   bool visited;
 };
 
-int stack[MAX];
-int top = -1;
+int STACK[MAX], TOP = -1;
 
-int queue[MAX];
-int rear = -1;
-int front = 0;
-int queueItemCount = 0;
+int QUEUE[MAX], REAR = -1, FRONT = 0, queueItemCount = 0;
 
 struct Vertex *vertices[MAX];
 int adjMatrix[MAX][MAX];
 int vertexCount = 0;
 
-void enqueue(int val) {
-  queue[++rear] = val;
-  queueItemCount++;
-}
+void breadthFirstSearch();
+void depthFirstSearch();
 
-int dequeue() {
-  queueItemCount--;
-  return queue[front++];
-}
+void addVertex(char);
+void addEdge(int, int);
+void displayVertex(int);
+int getAdjUnvisitedVertex(int);
 
-bool isQueueEmpty() { return queueItemCount == 0; }
+void enqueue(int);
+int dequeue();
+bool isQueueEmpty();
 
-void push(int val) {
-  stack[++top] = val;
-}
-
-int pop() { return stack[top--]; }
-
-int isStackEmpty() { return top == -1; }
-
-void addVertex(char label) {
-  struct Vertex *vertex = (struct Vertex *)malloc(sizeof(struct Vertex));
-  vertex->label = label;
-  vertex->visited = false;
-  vertices[vertexCount++] = vertex;
-}
-
-void addEdge(int start, int end) {
-  adjMatrix[start][end] = 1;
-  adjMatrix[end][start] = 1;
-}
-
-void displayVertex(int vertexIndex) {
-  printf("\t%c", vertices[vertexIndex]->label);
-}
-
-int getAdjUnvisitedVertex(int vertexIndex) {
-
-  for (int i = 0; i < vertexCount; i++)
-    if (adjMatrix[vertexIndex][i] == 1 && vertices[i]->visited == false)
-      return i;
-
-  return -1;
-}
-
-void breadthFirstSearch() {
-
-  vertices[0]->visited = true;
-
-  displayVertex(0);
-  enqueue(0);
-
-  int unvisitedVertex;
-
-  while (!isQueueEmpty()) {
-
-    int tempVertex = dequeue();
-
-    while ((unvisitedVertex = getAdjUnvisitedVertex(tempVertex)) != -1) {
-      vertices[unvisitedVertex]->visited = true;
-      displayVertex(unvisitedVertex);
-      enqueue(unvisitedVertex);
-    }
-  }
-
-  for (int i = 0; i < vertexCount; i++) {
-    vertices[i]->visited = false;
-  }
-}
-
-void depthFirstSearch() {
-
-  int vertex = 0;
-
-  push(vertex);
-
-  while (!isStackEmpty()) {
-
-    vertex = pop();
-
-    if (!vertices[vertex]->visited) {
-      printf("%c\t", vertices[vertex]->label);
-      vertices[vertex]->visited = true;
-    }
-
-    for (int count = vertexCount - 1; count >= 0; count--) {
-      if (adjMatrix[vertex][count] == 1 && !vertices[count]->visited) {
-        push(count);
-      }
-    }
-  }
-}
+void push(int);
+int pop();
+int isStackEmpty();
 
 int main() {
 
@@ -170,3 +89,94 @@ int main() {
 
   return 0;
 }
+
+void breadthFirstSearch() {
+
+  vertices[0]->visited = true;
+
+  displayVertex(0);
+  enqueue(0);
+
+  int unvisitedVertex;
+
+  while (!isQueueEmpty()) {
+
+    int tempVertex = dequeue();
+
+    while ((unvisitedVertex = getAdjUnvisitedVertex(tempVertex)) != -1) {
+      vertices[unvisitedVertex]->visited = true;
+      displayVertex(unvisitedVertex);
+      enqueue(unvisitedVertex);
+    }
+  }
+
+  for (int i = 0; i < vertexCount; i++) {
+    vertices[i]->visited = false;
+  }
+}
+
+void depthFirstSearch() {
+
+  int vertex = 0;
+
+  push(vertex);
+
+  while (!isStackEmpty()) {
+
+    vertex = pop();
+
+    if (!vertices[vertex]->visited) {
+      printf("%c\t", vertices[vertex]->label);
+      vertices[vertex]->visited = true;
+    }
+
+    for (int count = vertexCount - 1; count >= 0; count--) {
+      if (adjMatrix[vertex][count] == 1 && !vertices[count]->visited) {
+        push(count);
+      }
+    }
+  }
+}
+
+void addVertex(char label) {
+  struct Vertex *vertex = (struct Vertex *)malloc(sizeof(struct Vertex));
+  vertex->label = label;
+  vertex->visited = false;
+  vertices[vertexCount++] = vertex;
+}
+
+void addEdge(int start, int end) {
+  adjMatrix[start][end] = 1;
+  adjMatrix[end][start] = 1;
+}
+
+void displayVertex(int vertexIndex) {
+  printf("\t%c", vertices[vertexIndex]->label);
+}
+
+int getAdjUnvisitedVertex(int vertexIndex) {
+
+  for (int i = 0; i < vertexCount; i++)
+    if (adjMatrix[vertexIndex][i] == 1 && vertices[i]->visited == false)
+      return i;
+
+  return -1;
+}
+
+void enqueue(int val) {
+  QUEUE[++REAR] = val;
+  queueItemCount++;
+}
+
+int dequeue() {
+  queueItemCount--;
+  return QUEUE[FRONT++];
+}
+
+bool isQueueEmpty() { return queueItemCount == 0; }
+
+void push(int val) { STACK[++TOP] = val; }
+
+int pop() { return STACK[TOP--]; }
+
+int isStackEmpty() { return TOP == -1; }
