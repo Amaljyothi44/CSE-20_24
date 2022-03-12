@@ -1,170 +1,197 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 struct Node {
-    int data;
-    struct Node *link;
+  int data;
+  struct Node *link;
 };
 
-struct Node* HEAD = NULL;
+struct Node *HEAD = NULL;
+
+void insertStart(int value);
+void insertEnd(int value);
+void insert(int value, int key);
+void deleteStart();
+void deleteEnd();
+void delete (int key);
+void display();
+int getValue(char s[]);
+
+int main() {
+
+  int choice;
+
+  printf("Menu:\n"
+         " 1. Insert at the beginning\n"
+         " 2. Insert at the end\n"
+         " 3. Insert after a value\n"
+         " 4. Delete from beginning\n"
+         " 5. Delete from the end\n"
+         " 6. Delete a specific value\n"
+         " 7. Display\n"
+         " 8. Exit\n");
+
+  while (true) {
+
+    printf("\nEnter choice: ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+
+    case 1:
+      insertStart(getValue("value"));
+      break;
+    case 2:
+      insertEnd(getValue("value"));
+      break;
+    case 3:
+      insert(getValue("value"), getValue("key"));
+      break;
+    case 4:
+      deleteStart();
+      break;
+    case 5:
+      deleteEnd();
+      break;
+    case 6:
+      delete (getValue("key"));
+      break;
+    case 7:
+      display();
+      break;
+    case 8:
+      printf("Exiting...\n");
+      return 0;
+    default:
+      printf("Invalid choice");
+      break;
+    }
+  }
+
+  return 0;
+}
 
 void insertStart(int value) {
-    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node*));
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node *));
 
-    newNode->data = value;
-    HEAD = newNode;
-    newNode->link = NULL;
+  newNode->data = value;
+  HEAD = newNode;
+  newNode->link = NULL;
 }
 
 void insertEnd(int value) {
-    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
-    newNode->data = value;
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+  newNode->data = value;
 
-    struct Node* ptr = HEAD;
+  struct Node *ptr = HEAD;
 
-    while(ptr->link != NULL)
-        ptr = ptr->link;
+  while (ptr->link != NULL)
+    ptr = ptr->link;
 
-    ptr->link = newNode;
-    newNode->link = NULL;
+  ptr->link = newNode;
+  newNode->link = NULL;
 }
 
 void insert(int value, int key) {
-    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node*));
-    newNode->data = value;
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node *));
+  newNode->data = value;
 
-    struct Node* ptr = HEAD;
-    struct Node* prev;
+  struct Node *ptr = HEAD;
+  struct Node *prev;
 
-    while(ptr->data != key) {
-        prev = ptr;
-        ptr = ptr->link;
-    }
+  while (ptr != NULL && ptr->data != key) {
+    prev = ptr;
 
-    newNode->link = ptr->link;
-    ptr->link = newNode;
+    ptr = ptr->link;
+  }
+
+  if (ptr == NULL) {
+    printf("Key not present in list");
+    return;
+  }
+
+  newNode->link = ptr->link;
+  ptr->link = newNode;
 }
 
 void display() {
 
-    if(HEAD == NULL) {
-        printf("\nLinked list empty!\n");
-        return;
-    }
+  if (HEAD == NULL) {
+    printf("\nLinked list empty!\n");
+    return;
+  }
 
-    struct Node* ptr = HEAD;
+  struct Node *ptr = HEAD;
 
-    while(ptr->link != NULL) {
-        printf("%d\t", ptr->data);
-        ptr = ptr->link;
-    }
+  while (ptr->link != NULL) {
+    printf("%d\t", ptr->data);
+    ptr = ptr->link;
+  }
 
-    printf("%d\t\n", ptr->data);
-
+  printf("%d\t\n", ptr->data);
 }
 
 void deleteStart() {
 
-    if(HEAD == NULL){
-        printf("Linked list empty!");
-        return;
-    }
+  if (HEAD == NULL) {
+    printf("Linked list empty!");
+    return;
+  }
 
-    if(HEAD->link == NULL) {
-        HEAD = NULL;
-        return;
-    }
+  if (HEAD->link == NULL) {
+    HEAD = NULL;
+    return;
+  }
 
-    struct Node* temp = HEAD;
-    printf("The deleted element is: %d\n",temp->data);
-    HEAD = HEAD->link;
-    free(temp);
+  struct Node *temp = HEAD;
+  printf("The deleted element is: %d\n", temp->data);
+  HEAD = HEAD->link;
+  free(temp);
 }
 
 void deleteEnd() {
 
-    struct Node* ptr = HEAD;
-    struct Node* prev;
+  struct Node *ptr = HEAD;
+  struct Node *prev;
 
-    while(ptr->link != NULL) {
-        prev = ptr;
-        ptr = ptr->link;
-    }
+  while (ptr->link != NULL) {
+    prev = ptr;
+    ptr = ptr->link;
+  }
 
-    printf("The deleted element is: %d\n",ptr->data);
-    prev->link = NULL;
-    free(ptr);
+  printf("The deleted element is: %d\n", ptr->data);
+  prev->link = NULL;
+  free(ptr);
 }
 
-void delete(int key) {
+void delete (int key) {
 
-    struct Node* ptr = HEAD;
-    struct Node* prev;
+  struct Node *ptr = HEAD;
+  struct Node *prev = ptr;
 
-    while(ptr->data != key) {
-        prev = ptr;
-        ptr = ptr->link;
-    }
+  while (ptr != NULL && ptr->data != key) {
+    prev = ptr;
+    ptr = ptr->link;
+  }
 
-    printf("The deleted element is: %d\n",ptr->data);
+  if (ptr == NULL) {
+    printf("Key not present in list");
+    return;
+  }
+
+  printf("The deleted element is: %d\n", ptr->data);
+
+  if (prev != NULL)
     prev->link = ptr->link;
-    free(ptr);
 
+  free(ptr);
 }
 
 int getValue(char s[]) {
-    int n;
-    printf("Enter the %s: ", s);
-    scanf("%d", &n);
-    return n;
-}
-
-void main(){
-
-    int choice;
-    printf("1. Insert at the beginning");
-    printf("\n2. Insert at the end");
-    printf("\n3. Insert after a value");
-    printf("\n4. Delete from beginning");
-    printf("\n5. Delete from the end");
-    printf("\n6. Delete a specific value");
-    printf("\n7. Display");
-    printf("\n8. Exit\n");
-
-    while(1) {
-        printf("Enter your choice: ");
-        scanf("%d",&choice);
-        switch(choice) {
-            case 1:
-                insertStart(getValue("value"));
-                break;
-            case 2:
-                insertEnd(getValue("value"));
-                break;
-            case 3:
-                insert(getValue("value"), getValue("key"));
-                break;
-            case 4:
-                deleteStart();
-                break;
-            case 5:
-                deleteEnd();
-                break;
-            case 6:
-                delete(getValue("key"));
-                break;
-            case 7:
-                display();
-                break;
-            case 8:
-                exit(0);
-                break;
-            default:
-                printf("Invalid choice");
-                break;
-
-        }
-    }
-
+  int n;
+  printf("Enter the %s: ", s);
+  scanf("%d", &n);
+  return n;
 }
