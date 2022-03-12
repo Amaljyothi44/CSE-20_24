@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 
 int MAX, TOP = -1, STACK[100];
@@ -5,6 +6,8 @@ int MAX, TOP = -1, STACK[100];
 void push();
 void pop();
 void display();
+bool isFull();
+bool isEmpty();
 
 int main() {
 
@@ -42,9 +45,13 @@ int main() {
   return 0;
 }
 
+bool isFull() { return TOP >= MAX - 1; }
+
+bool isEmpty() { return TOP < 0; }
+
 void push() {
 
-  if (TOP >= MAX - 1) {
+  if (isFull()) {
 
     printf("Stack Overflow");
     return;
@@ -58,7 +65,7 @@ void push() {
 
 void pop() {
 
-  if (TOP <= -1) {
+  if (isEmpty()) {
     printf("Stack Underflow");
     return;
   }
