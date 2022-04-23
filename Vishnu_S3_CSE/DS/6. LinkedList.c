@@ -76,8 +76,8 @@ void insertStart(int value) {
   struct Node *newNode = (struct Node *)malloc(sizeof(struct Node *));
 
   newNode->data = value;
+  newNode->link = HEAD;
   HEAD = newNode;
-  newNode->link = NULL;
 }
 
 void insertEnd(int value) {
