@@ -18,7 +18,7 @@ int main() {
 
   printf("\nMenu\n 1. Enqueue\n 2. Dequeue\n 3. Display\n 4. Exit\n");
 
-  while (1) {
+  while (true) {
 
     printf("\nEnter choice: ");
     scanf("%d", &choice);
@@ -47,7 +47,7 @@ int main() {
 
 bool isFull() { return REAR == MAX - 1; }
 
-bool isEmpty() { return FRONT == -1 || FRONT > REAR; }
+bool isEmpty() { return FRONT == -1; }
 
 void enqueue() {
 
@@ -75,7 +75,7 @@ void dequeue() {
 
   printf("Element deleted: %d", QUEUE[FRONT++]);
 
-  if (FRONT == REAR)
+  if (FRONT > REAR)
     FRONT = REAR = -1;
 }
 
