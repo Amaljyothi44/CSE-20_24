@@ -18,20 +18,20 @@ void printArray(char s[], int *arr, int n);
 
 int main() {
 
-  int arr[] = {-2, 45, 0, 11, -9};
-  int n = sizeof(arr) / sizeof(arr[0]);
+  // int arr[] = {-2, 45, 0, 11, -9};
+  // int n = sizeof(arr) / sizeof(arr[0]);
 
-  // int n;
+  int n;
 
-  // printf("Enter the size of the array: ");
-  // scanf("%d", &n);
+  printf("Enter the size of the array: ");
+  scanf("%d", &n);
 
-  // int arr[n];
+  int arr[n];
 
-  // for (int i = 0; i < n; i++) {
-  //   printf("Enter the %dth element: ", i);
-  //   scanf("%d", &arr[i]);
-  // }
+  for (int i = 0; i < n; i++) {
+    printf("Enter the %dth element: ", i);
+    scanf("%d", &arr[i]);
+  }
 
   printArray("Bubble sort:", bubbleSort(arr, n), n);
   printArray("Insertion sort:", insertionSort(arr, n), n);
