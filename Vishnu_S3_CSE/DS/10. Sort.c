@@ -18,20 +18,20 @@ void printArray(char s[], int *arr, int n);
 
 int main() {
 
-  // int arr[] = {-2, 45, 0, 11, -9};
-  // int n = sizeof(arr) / sizeof(arr[0]);
+  int arr[] = {-2, 45, 0, 11, -9};
+  int n = sizeof(arr) / sizeof(arr[0]);
 
-  int n;
+  // int n;
 
-  printf("Enter the size of the array: ");
-  scanf("%d", &n);
+  // printf("Enter the size of the array: ");
+  // scanf("%d", &n);
 
-  int arr[n];
+  // int arr[n];
 
-  for (int i = 0; i < n; i++) {
-    printf("Enter the %dth element: ", i);
-    scanf("%d", &arr[i]);
-  }
+  // for (int i = 0; i < n; i++) {
+  //   printf("Enter the %dth element: ", i);
+  //   scanf("%d", &arr[i]);
+  // }
 
   printArray("Bubble sort:", bubbleSort(arr, n), n);
   printArray("Insertion sort:", insertionSort(arr, n), n);
@@ -99,30 +99,32 @@ int *quickSort(int arr[], int low, int high) {
   return arr;
 }
 
-int quickSortPartition(int arr[], int low, int high) {
+int quickSortPartition(int arr[], int left, int right) {
 
-  int pivot = arr[high];
+  int pivot = arr[left], l = left + 1, r = right;
 
-  int i = (low - 1);
+  while (l < r) {
 
-  for (int j = low; j < high; j++) {
-    if (arr[j] <= pivot) {
+    while (l < right && arr[l] < pivot)
+      l++;
 
-      i++;
+    while (r > left && arr[r] >= pivot)
+      r--;
 
-      swap(&arr[i], &arr[j]);
-    }
+    if (l < r)
+      swap(&arr[l], &arr[r]);
   }
 
-  swap(&arr[i + 1], &arr[high]);
+  arr[left] = arr[r];
+  arr[r] = pivot;
 
-  return (i + 1);
+  return r;
 }
 
 int *mergeSort(int arr[], int l, int r) {
   if (l < r) {
 
-    int m = l + (r - l) / 2;
+    int m = (l + r) / 2;
 
     mergeSort(arr, l, m);
     mergeSort(arr, m + 1, r);
@@ -142,8 +144,8 @@ void mergeSortMerge(int arr[], int p, int q, int r) {
   for (int i = 0; i < n1; i++)
     L[i] = arr[p + i];
 
-  for (int j = 0; j < n2; j++)
-    M[j] = arr[q + 1 + j];
+  for (int i = 0; i < n2; i++)
+    M[i] = arr[q + i + 1];
 
   int i = 0, j = 0, k = p;
 
