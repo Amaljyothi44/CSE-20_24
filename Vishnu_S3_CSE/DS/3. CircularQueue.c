@@ -72,10 +72,8 @@ void enqueue() {
   printf("Enter Element: ");
   scanf("%d", &x);
 
-  if (FRONT == -1 && REAR == -1)
+  if (isEmpty())
     FRONT = REAR = 0;
-  else if (REAR == MAX - 1 && FRONT != 0)
-    REAR = 0;
   else
     REAR = (REAR + 1) % MAX;
 
