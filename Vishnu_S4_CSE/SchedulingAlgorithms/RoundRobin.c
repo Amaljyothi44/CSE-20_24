@@ -93,28 +93,3 @@ int main() {
 
   return 0;
 }
-
-/*
-
-RoundRobin $ gcc -o RoundRobin RoundRobin.c && ./RoundRobin 
-
-Enter the number of processes: 5
-Enter the Burst Time of 0th process: 3
-Enter the Burst Time of 1th process: 7
-Enter the Burst Time of 2th process: 5
-Enter the Burst Time of 3th process: 10
-Enter the Burst Time of 4th process: 15
-Enter the time quantum: 5
-[ 0 P0 3 ][ 3 P1 8 ][ 8 P2 13 ][ 13 P3 18 ][ 18 P4 23 ][ 23 P1 25 ][ 25 P3 30 ][ 30 P4 35 ][ 35 P4 40 ]
-PID	BT	WT	TAT
-P0	3	0	3	
-P1	7	18	25	
-P2	5	8	13	
-P3	10	20	30	
-P4	15	25	40	
-
-Average WaitingTime: 14.200000
-Average TurnAroundTime: 22.200001
-
-
-*/
