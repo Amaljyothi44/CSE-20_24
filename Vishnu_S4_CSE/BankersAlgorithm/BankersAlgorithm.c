@@ -67,6 +67,26 @@ bool bankersAlgorithm(int n, int m, int alloc[n][m], int max[n][m],
   return true;
 }
 
+void resourceRequestAlgorithm(int n, int m, int alloc[n][m], int max[n][m],
+                              int need[n][m], int avail[m], int request[m], int new) {
+
+  for (int i = 0; i < m; i++) {
+    if (request[i] > need[new][i]) {
+      printf(
+          "Invalid request: Request > Need => New request can't be allocated");
+      return;
+    }
+
+    if (request[i] > avail[i]) {
+      printf(
+          "Invalid request: Request > Avail => New request can't be allocated");
+      return;
+    }
+  }
+
+  bankersAlgorithm(n, m, alloc, max, need, avail, true);
+}
+
 int main() {
 
   int n = 0, m = 0;
@@ -107,24 +127,9 @@ int main() {
   for (int i = 0; i < m; i++)
     scanf("%d", &request[i]);
 
-  for (int i = 0; i < m; i++) {
-    if (request[i] > need[new][i]) {
-      printf(
-          "Invalid request: Request > Need => New request can't be allocated");
-      return 0;
-    }
-
-    if (request[i] > avail[i]) {
-      printf(
-          "Invalid request: Request > Avail => New request can't be allocated");
-      return 0;
-    }
-  }
-
-  bankersAlgorithm(n, m, alloc, max, need, avail, true);
+  resourceRequestAlgorithm(n, m, alloc, max, need, avail, request, new);
 
   printf("\n\n");
 
   return 0;
 }
-
