@@ -55,10 +55,8 @@ bool bankersAlgorithm(int n, int m, int alloc[n][m], int max[n][m],
 
     printf("SAFE Sequence: ");
 
-    for (int i = 0; i < n - 1; i++)
-      printf("P%d ->\t", sequence[i]);
-
-    printf("P%d\t", sequence[n - 1]);
+    for (int i = 0; i < n; i++)
+      printf("P%d =>\t", sequence[i]);
 
     if (isResourceRequest)
       printf("\n => New request can be allocated");
