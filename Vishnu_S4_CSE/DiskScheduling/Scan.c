@@ -17,8 +17,7 @@ void bubbleSort(int arr[], int n) {
 
 int main() {
 
-  int n, totalHeadMovement = 0, previous = 0, diskSize, moveDir,
-         startIndex = -1;
+  int n, totalHeadMovement = 0, previous = 0, diskSize, moveDir;
 
   printf("Number of Requests: ");
   scanf("%d", &n);
@@ -37,18 +36,14 @@ int main() {
     printf("%dth Request: ", i);
     scanf("%d", &requests[i]);
 
-    if (startIndex == -1 && previous < requests[i])
-      startIndex = i;
   }
-
-  if (startIndex == -1)
-    startIndex = 0;
 
   printf("\nMove Direction -> Enter 0 for low and 1 for high: ");
   scanf("%d", &moveDir);
 
   bubbleSort(requests, n);
 
+  int startIndex;
   for (int i = 0; i < n; i++) {
     if (previous < requests[i]) {
       startIndex = i;
