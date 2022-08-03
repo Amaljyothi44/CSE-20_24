@@ -4,45 +4,45 @@
 bool bankersAlgorithm(int n, int m, int alloc[n][m], int max[n][m],
                       int need[n][m], int avail[m], bool isResourceRequest) {
 
-  int visited[n], sequence[n], index = 0;
+  int sequence[n], index = 0;
+
+  bool visited[n];
 
   for (int i = 0; i < n; i++)
-    visited[i] = 0;
+    visited[i] = false;
 
   for (int i = 0; i < n; i++)
     for (int j = 0; j < m; j++)
       need[i][j] = max[i][j] - alloc[i][j];
 
-  int y = 0;
-
   for (int k = 0; k < n; k++)
     for (int i = 0; i < n; i++)
-      if (visited[i] == 0) {
+      if (visited[i] == false) {
 
-        int flag = 0;
+        bool flag = false;
 
         for (int j = 0; j < m; j++)
           if (need[i][j] > avail[j]) {
-            flag = 1;
+            flag = true;
             break;
           }
 
-        if (flag == 0) {
+        if (flag == false) {
 
           sequence[index++] = i;
 
           for (int y = 0; y < m; y++)
             avail[y] += alloc[i][y];
 
-          visited[i] = 1;
+          visited[i] = true;
         }
       }
 
-  int flag = 1;
+  bool flag = true;
 
   for (int i = 0; i < n; i++)
-    if (visited[i] == 0) {
-      flag = 0;
+    if (visited[i] == false) {
+      flag = false;
       printf("System not SAFE");
 
       if (isResourceRequest)
@@ -51,7 +51,7 @@ bool bankersAlgorithm(int n, int m, int alloc[n][m], int max[n][m],
       return false;
     }
 
-  if (flag == 1) {
+  if (flag == true) {
 
     printf("SAFE Sequence: ");
 
@@ -66,7 +66,8 @@ bool bankersAlgorithm(int n, int m, int alloc[n][m], int max[n][m],
 }
 
 void resourceRequestAlgorithm(int n, int m, int alloc[n][m], int max[n][m],
-                              int need[n][m], int avail[m], int request[m], int new) {
+                              int need[n][m], int avail[m], int request[m],
+                              int new) {
 
   for (int i = 0; i < m; i++) {
     if (request[i] > need[new][i]) {
