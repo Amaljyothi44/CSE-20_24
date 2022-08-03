@@ -3,41 +3,11 @@
 struct Process {
 
   int PID;
-  int arrivalTime;
   int burstTime;
+  
   int waitingTime;
   int turnAroundTime;
-
-  int startTime;
-  int endTime;
 };
-
-void getWaitingTime(struct Process processes[], int n) {
-
-  processes[0].waitingTime = processes[0].startTime = 0;
-
-  for (int i = 1; i < n; i++) {
-
-    processes[i].startTime =
-        processes[i - 1].startTime + processes[i - 1].burstTime;
-
-    processes[i].waitingTime =
-        processes[i].startTime - processes[i].arrivalTime;
-  }
-}
-
-void getTurnAroundTime(struct Process processes[], int n) {
-
-  processes[0].endTime = processes[0].turnAroundTime = processes[0].burstTime;
-
-  for (int i = 1; i < n; i++) {
-
-    processes[i].endTime = processes[i - 1].endTime + processes[i].burstTime;
-
-    processes[i].turnAroundTime =
-        processes[i].endTime - processes[i].arrivalTime;
-  }
-}
 
 void swap(struct Process *a, struct Process *b) {
   struct Process temp = *a;
@@ -48,9 +18,34 @@ void swap(struct Process *a, struct Process *b) {
 void bubbleSort(struct Process processes[], int n) {
   for (int i = 0; i < n; i++)
     for (int j = 0; j < n - 1; j++)
-      if (processes[j].burstTime > processes[j + 1].burstTime &&
-          processes[j].arrivalTime >= processes[j + 1].arrivalTime)
+      if (processes[j].burstTime > processes[j + 1].burstTime)
         swap(&processes[j], &processes[j + 1]);
+}
+
+void getWaitingTime(struct Process processes[], int n) {
+
+  int currentTime = 0, prevTime = 0;
+
+  for (int i = 0; i < n; i++) {
+
+    prevTime = currentTime;
+
+    processes[i].waitingTime = 0;
+
+    for (int j = 0; j < i; j++)
+      processes[i].waitingTime += processes[j].burstTime;
+
+    currentTime = processes[i].waitingTime + processes[i].burstTime;
+
+    printf("[%d P%d %d]\t", prevTime, processes[i].PID, currentTime);
+  }
+}
+
+void getTurnAroundTime(struct Process processes[], int n) {
+
+  for (int i = 0; i < n; i++)
+    processes[i].turnAroundTime =
+        processes[i].burstTime + processes[i].waitingTime;
 }
 
 int main() {
@@ -66,12 +61,11 @@ int main() {
 
     processes[i].PID = i;
 
-    printf("Enter the Arrival Time of %dth process: ", i);
-    scanf("%d", &processes[i].arrivalTime);
-
     printf("Enter the Burst Time of %dth process: ", i);
     scanf("%d", &processes[i].burstTime);
   }
+
+  printf("\nGantt Chart: ");
 
   bubbleSort(processes, n);
 
@@ -79,13 +73,7 @@ int main() {
 
   getTurnAroundTime(processes, n);
 
-  printf("\n\nGantt Chart: ");
-
-  for (int i = 0; i < n; i++)
-    printf("[%d P%d %d]\t", processes[i].startTime, processes[i].PID,
-           processes[i].endTime);
-
-  printf("\n\nPID\tAT\tBT\tST\tET\tWT\tTAT\n");
+  printf("\n\nPID\tBT\tWT\tTAT\n");
 
   for (int i = 0; i < n; i++) {
 
@@ -93,11 +81,7 @@ int main() {
     totalTurnAroundTime += processes[i].turnAroundTime;
 
     printf("P%d	", processes[i].PID);
-    printf("%d	", processes[i].arrivalTime);
     printf("%d	", processes[i].burstTime);
-
-    printf("%d	", processes[i].startTime);
-    printf("%d	", processes[i].endTime);
 
     printf("%d	", processes[i].waitingTime);
     printf("%d	\n", processes[i].turnAroundTime);
